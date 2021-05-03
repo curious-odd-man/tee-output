@@ -14,23 +14,9 @@ import com.intellij.util.ui.FormBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Supplier;
-
-import static java.util.stream.Collectors.toMap;
 
 public class TeeSettingsComponent {
-    private static final Logger                        log                    = Logger.getInstance(TeeSettingsComponent.class);
-    private static final Map<String, Supplier<String>> MACRO_VALUES_SUPPLIERS = new HashMap<>();
-    private static final DateTimeFormatter             TIMESTAMP_FORMAT       = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
-    static {
-        MACRO_VALUES_SUPPLIERS.put("Timestamp", () -> LocalDateTime.now()
-                                                                   .format(TIMESTAMP_FORMAT));
-    }
+    private static final Logger log = Logger.getInstance(TeeSettingsComponent.class);
 
     private final JPanel                    aPanel;
     private final TextFieldWithBrowseButton aLogsOutputDir = new TextFieldWithBrowseButton();
@@ -40,14 +26,7 @@ public class TeeSettingsComponent {
         DataContext dataContext = DataManager.getInstance()
                                              .getDataContext(aLogsOutputDir);
         aProject = CommonDataKeys.PROJECT.getData(dataContext);
-        Map<String, String> customExtensions = MACRO_VALUES_SUPPLIERS.entrySet()
-                                                                     .stream()
-                                                                     .collect(toMap(
-                                                                             Map.Entry::getKey,
-                                                                             entry -> entry.getValue()
-                                                                                           .get()
-                                                                     ));
-        MacrosDialog.addTextFieldExtension((ExtendableTextField) aLogsOutputDir.getTextField(), MacrosDialog.Filters.ALL, customExtensions);
+        MacrosDialog.addTextFieldExtension((ExtendableTextField) aLogsOutputDir.getTextField());
         addWorkingDirectoryBrowseAction(aLogsOutputDir);
         aPanel = FormBuilder.createFormBuilder()
                             .addLabeledComponent(new JBLabel("Log output path: "), aLogsOutputDir, 1, false)

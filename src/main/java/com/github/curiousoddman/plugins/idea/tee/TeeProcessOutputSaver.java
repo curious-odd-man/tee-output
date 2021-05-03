@@ -2,9 +2,7 @@ package com.github.curiousoddman.plugins.idea.tee;
 
 import com.intellij.execution.process.ProcessAdapter;
 import com.intellij.execution.process.ProcessEvent;
-import com.intellij.execution.process.ProcessHandler;
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
+import com.intellij.ide.macro.Macro;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
@@ -13,6 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 public class TeeProcessOutputSaver extends ProcessAdapter {
     private static final Logger log = Logger.getInstance(TeeExecutionListener.class);
@@ -22,7 +23,15 @@ public class TeeProcessOutputSaver extends ProcessAdapter {
 
     public TeeProcessOutputSaver(Project project) throws IOException {
         aProject = project;
-        aBufferedWriter = Files.newBufferedWriter(OutputFileNameCreator.createFileName(project));
+        BufferedWriter bufferedWriter = null;
+        try {
+            Path fileName = OutputFileNameCreator.createFileName(project);
+            Files.createDirectories(fileName.getParent());
+            bufferedWriter = Files.newBufferedWriter(fileName);
+        } catch (ExecutionException | TimeoutException | Macro.ExecutionCancelledException e) {
+            log.error("Failed to start writing to file:", e);
+        }
+        aBufferedWriter = bufferedWriter;
     }
 
     @Override
@@ -31,6 +40,10 @@ public class TeeProcessOutputSaver extends ProcessAdapter {
 
     @Override
     public void processTerminated(@NotNull ProcessEvent event) {
+        if (aBufferedWriter == null) {
+            return;
+        }
+
         try {
             aBufferedWriter.flush();
         } catch (IOException e) {
@@ -46,6 +59,10 @@ public class TeeProcessOutputSaver extends ProcessAdapter {
 
     @Override
     public void onTextAvailable(@NotNull ProcessEvent event, @NotNull Key outputType) {
+        if (aBufferedWriter == null) {
+            return;
+        }
+
         try {
             aBufferedWriter.append(event.getText());
         } catch (IOException e) {
