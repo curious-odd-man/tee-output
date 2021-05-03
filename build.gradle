@@ -23,10 +23,17 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      First demo version.<br>
+      """
 }
+
 test {
     useJUnitPlatform()
+}
+
+publishPlugin {
+    def prop = getProperty("pluginPublishToken")
+    println(prop)
+    token prop
 }
 
