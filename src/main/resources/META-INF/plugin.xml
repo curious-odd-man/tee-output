@@ -12,6 +12,10 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <applicationConfigurable parentId="tools" instance="com.github.curiousoddman.plugins.idea.tee.settings.TeeSettingsConfigurable"
+                                 id="com.github.curiousoddman.plugins.idea.tee.settings.TeeSettingsConfigurable"
+                                 displayName="Tee-Output: Settings"/>
+        <applicationService serviceImplementation="com.github.curiousoddman.plugins.idea.tee.settings.TeeSettingsState"/>
     </extensions>
 
     <projectListeners>
