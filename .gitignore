@@ -1,0 +1,6 @@
+# Idea related directories and files
+.idea
+target/
+build/
+.gradle
+*.iml

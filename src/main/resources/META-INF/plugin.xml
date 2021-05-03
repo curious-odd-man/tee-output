@@ -1,0 +1,25 @@
+<idea-plugin>
+    <id>com.github.curious-odd-man.tee-output</id>
+    <name>Tee-Output</name>
+    <vendor email="vlad.varslavans@gmail.com" url="https://github.com/curious-odd-man">curious-odd-man</vendor>
+
+    <description><![CDATA[
+    Tiny plugin that tee output from all executions to a file.
+    ]]></description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <projectListeners>
+        <listener class="com.github.curiousoddman.plugins.idea.tee.TeeExecutionListener"
+                  topic="com.intellij.execution.ExecutionListener"/>
+    </projectListeners>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
