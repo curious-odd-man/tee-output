@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
         storages = {@Storage("TeeOutputSettingsPlugin.xml")}
 )
 public class TeeSettingsState implements PersistentStateComponent<TeeSettingsState> {
-    public String aLogsOutputDir = "";
+    public String aLogsOutputDir = "$ProjectFileDir$/logs/$Timestamp$.log";
 
     public static TeeSettingsState getInstance() {
         return ServiceManager.getService(TeeSettingsState.class);

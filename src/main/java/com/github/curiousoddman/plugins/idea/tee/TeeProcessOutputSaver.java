@@ -18,24 +18,21 @@ import java.util.concurrent.TimeoutException;
 public class TeeProcessOutputSaver extends ProcessAdapter {
     private static final Logger log = Logger.getInstance(TeeExecutionListener.class);
 
-    private final Project        aProject;
-    private final BufferedWriter aBufferedWriter;
+    private final Project aProject;
 
-    public TeeProcessOutputSaver(Project project) throws IOException {
+    private BufferedWriter aBufferedWriter;
+
+    public TeeProcessOutputSaver(Project project) {
         aProject = project;
         BufferedWriter bufferedWriter = null;
         try {
-            Path fileName = OutputFileNameCreator.createFileName(project);
+            Path fileName = OutputFileNameCreator.createFileName(aProject);
             Files.createDirectories(fileName.getParent());
             bufferedWriter = Files.newBufferedWriter(fileName);
-        } catch (ExecutionException | TimeoutException | Macro.ExecutionCancelledException e) {
+        } catch (ExecutionException | TimeoutException | Macro.ExecutionCancelledException | IOException e) {
             log.error("Failed to start writing to file:", e);
         }
         aBufferedWriter = bufferedWriter;
-    }
-
-    @Override
-    public void startNotified(@NotNull ProcessEvent event) {
     }
 
     @Override
@@ -44,14 +41,17 @@ public class TeeProcessOutputSaver extends ProcessAdapter {
             return;
         }
 
+        BufferedWriter bufferedWriter = aBufferedWriter;
+        aBufferedWriter = null;
+
         try {
-            aBufferedWriter.flush();
+            bufferedWriter.flush();
         } catch (IOException e) {
             log.error("Failed to flush output", e);
         }
 
         try {
-            aBufferedWriter.close();
+            bufferedWriter.close();
         } catch (IOException e) {
             log.error("Failed to close file", e);
         }
@@ -60,6 +60,7 @@ public class TeeProcessOutputSaver extends ProcessAdapter {
     @Override
     public void onTextAvailable(@NotNull ProcessEvent event, @NotNull Key outputType) {
         if (aBufferedWriter == null) {
+            log.warn("Text ignored as writer is not available. " + event.getText());
             return;
         }
 
