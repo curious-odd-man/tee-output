@@ -17,9 +17,9 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
-// See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version '2021.1'
+    plugins = ['org.jetbrains.plugins.gradle']
 }
 patchPluginXml {
     changeNotes """
