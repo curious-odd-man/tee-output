@@ -1,5 +1,7 @@
-package com.github.curiousoddman.plugins.idea.tee;
+package com.github.curiousoddman.plugins.idea.tee.output;
 
+import com.github.curiousoddman.plugins.idea.tee.OutputFileNameCreator;
+import com.github.curiousoddman.plugins.idea.tee.TeeExecutionListener;
 import com.intellij.execution.process.ProcessAdapter;
 import com.intellij.execution.process.ProcessEvent;
 import com.intellij.ide.macro.Macro;
@@ -57,17 +59,25 @@ public class TeeProcessOutputSaver extends ProcessAdapter {
         }
     }
 
-    @Override
-    public void onTextAvailable(@NotNull ProcessEvent event, @NotNull Key outputType) {
+    public void onTextAvailable(@NotNull String text) {
         if (aBufferedWriter == null) {
-            log.warn("Text ignored as writer is not available. " + event.getText());
+            log.warn("Text ignored as writer is not available. " + text);
             return;
         }
 
         try {
-            aBufferedWriter.append(event.getText());
+            aBufferedWriter.append(text);
         } catch (IOException e) {
             log.error("Failed to write to file", e);
         }
+    }
+
+    public void onTextAvailable(@NotNull String text, @NotNull Key outputType) {
+        onTextAvailable(text);
+    }
+
+    @Override
+    public void onTextAvailable(@NotNull ProcessEvent event, @NotNull Key outputType) {
+        onTextAvailable(event.getText(), outputType);
     }
 }
