@@ -20,6 +20,7 @@
                 serviceImplementation="com.github.curiousoddman.plugins.idea.tee.settings.TeeSettingsState"/>
 
         <macro implementation="com.github.curiousoddman.plugins.idea.tee.macro.TimestampMacro"/>
+        <macro implementation="com.github.curiousoddman.plugins.idea.tee.macro.RunConfigNameMacro"/>
     </extensions>
 
     <projectListeners>

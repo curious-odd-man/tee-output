@@ -24,8 +24,9 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      <h>1.1:</h><br>
-      - Gradle tests output will be now also saved to a file.
+      <h>Version 1.1:</h><br>
+      - Gradle tests output will be now also saved to a file.<br>
+      - Run Configuration Name macro added and can be used as part of output file name.<br>
       """
 }
 

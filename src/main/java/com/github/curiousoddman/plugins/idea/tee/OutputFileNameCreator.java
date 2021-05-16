@@ -19,10 +19,7 @@ public class OutputFileNameCreator {
 
     private static final Logger log = Logger.getInstance(OutputFileNameCreator.class);
 
-    public static Path createFileName(Project project) throws ExecutionException, TimeoutException, Macro.ExecutionCancelledException {
-        DataContext dataContext = DataManager.getInstance()
-                                             .getDataContextFromFocusAsync()
-                                             .blockingGet(30, TimeUnit.SECONDS);
+    public static Path createFileName(Project project, DataContext dataContext) throws ExecutionException, TimeoutException, Macro.ExecutionCancelledException {
         String rawPath = TeeSettingsState.getInstance().aLogsOutputDir;
         String replacedMacroPath = MacroManager.getInstance()
                                                .expandMacrosInString(rawPath, true, dataContext);

@@ -5,6 +5,7 @@ import com.github.curiousoddman.plugins.idea.tee.TeeExecutionListener;
 import com.intellij.execution.process.ProcessAdapter;
 import com.intellij.execution.process.ProcessEvent;
 import com.intellij.ide.macro.Macro;
+import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
@@ -24,11 +25,11 @@ public class TeeProcessOutputSaver extends ProcessAdapter {
 
     private BufferedWriter aBufferedWriter;
 
-    public TeeProcessOutputSaver(Project project) {
+    public TeeProcessOutputSaver(Project project, DataContext dataContext) {
         aProject = project;
         BufferedWriter bufferedWriter = null;
         try {
-            Path fileName = OutputFileNameCreator.createFileName(aProject);
+            Path fileName = OutputFileNameCreator.createFileName(aProject, dataContext);
             Files.createDirectories(fileName.getParent());
             bufferedWriter = Files.newBufferedWriter(fileName);
         } catch (ExecutionException | TimeoutException | Macro.ExecutionCancelledException | IOException e) {
