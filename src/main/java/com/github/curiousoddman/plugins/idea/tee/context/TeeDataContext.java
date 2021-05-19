@@ -12,8 +12,8 @@ public class TeeDataContext implements DataContext {
     private final DataContext         delegate;
     private final Map<String, Object> myData;
 
-    public TeeDataContext(DataContext delegate, Map<DataKey<?>, Object> data) {
-        this.delegate = delegate;
+    public TeeDataContext(@Nullable DataContext delegate, Map<DataKey<?>, Object> data) {
+        this.delegate = delegate == null ? new DummyDataContext() : delegate;
         this.myData = new HashMap<>();
         data.forEach((k, v) -> myData.put(k.getName(), v));
     }
@@ -30,5 +30,12 @@ public class TeeDataContext implements DataContext {
     @Override
     public <T> @Nullable T getData(@NotNull DataKey<T> key) {
         return (T) getData(key.getName());
+    }
+
+    static class DummyDataContext implements DataContext {
+        @Override
+        public @Nullable Object getData(@NotNull String dataId) {
+            return null;
+        }
     }
 }
