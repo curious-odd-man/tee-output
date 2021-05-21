@@ -6,8 +6,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static com.github.curiousoddman.plugins.idea.tee.OutputFileNameCreator.replaceUnsupportedCharacters;
+import static com.github.curiousoddman.plugins.idea.tee.OutputFileNameCreator.ensurePathValid;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class OutputFileNameCreatorTest {
 
@@ -23,7 +24,10 @@ public class OutputFileNameCreatorTest {
                 paths("in<valid", "in_valid"),
                 paths("in>valid", "in_valid"),
                 paths("in|valid", "in_valid"),
-                paths("in\\valid", "in\\valid")
+                paths("in\\valid", "in\\valid"),
+                paths("C:\\valid\\path", "C:\\valid\\path"),
+                paths("C:\\valid\\path:with:invalid:chars", "C:\\valid\\path_with_invalid_chars"),
+                paths("C:/valid/path", "C:/valid/path")
         );
     }
 
@@ -34,6 +38,6 @@ public class OutputFileNameCreatorTest {
     @ParameterizedTest
     @MethodSource("replaceTestsData")
     void replaceUnsupportedCharactersTest(String input, String expected) {
-        assertEquals(expected, replaceUnsupportedCharacters(input));
+        assertEquals(expected, ensurePathValid(input));
     }
 }
