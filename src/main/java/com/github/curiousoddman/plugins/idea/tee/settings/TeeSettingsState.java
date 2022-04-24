@@ -1,9 +1,7 @@
 package com.github.curiousoddman.plugins.idea.tee.settings;
 
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.components.*;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +14,7 @@ public class TeeSettingsState implements PersistentStateComponent<TeeSettingsSta
     public String aLogsOutputDir = "$ProjectFileDir$/logs/$RunConfigurationName$/$Timestamp$.log";
 
     public static TeeSettingsState getInstance() {
-        return ServiceManager.getService(TeeSettingsState.class);
+        return ApplicationManager.getApplication().getService(TeeSettingsState.class);
     }
 
     @Nullable
