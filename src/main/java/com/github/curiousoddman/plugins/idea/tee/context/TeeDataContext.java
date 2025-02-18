@@ -19,17 +19,19 @@ public class TeeDataContext implements DataContext {
     }
 
     @Override
-    public @Nullable Object getData(@NotNull String dataId) {
-        Object data = delegate.getData(dataId);
+    public <T> @Nullable T getData(@NotNull DataKey<T> key) {
+        Object data = delegate.getData(key);
         if (data == null) {
-            return myData.get(dataId);
+            return (T) myData.get(key.getName());
         }
-        return data;
+        return (T) data;
     }
 
+
     @Override
-    public <T> @Nullable T getData(@NotNull DataKey<T> key) {
-        return (T) getData(key.getName());
+    public @Nullable Object getData(@NotNull String dataId) {
+        DataKey<Object> key = DataKey.create(dataId);
+        return getData(key);
     }
 
     static class DummyDataContext implements DataContext {

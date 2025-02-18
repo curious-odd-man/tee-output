@@ -15,7 +15,7 @@ public class TimestampMacro extends Macro {
     private static final Logger log = Logger.getInstance(TimestampMacro.class);
 
     @Override
-    public @NonNls
+    public @NonNls @NotNull
     String getName() {
         return "Timestamp";
     }

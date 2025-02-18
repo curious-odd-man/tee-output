@@ -41,6 +41,7 @@ public class TeeProcessOutputSaver extends ProcessAdapter {
     @Override
     public void processTerminated(@NotNull ProcessEvent event) {
         if (aBufferedWriter == null) {
+            log.error("Buffered writer is not found!");
             return;
         }
 
