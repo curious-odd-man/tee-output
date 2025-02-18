@@ -31,9 +31,8 @@ public class TeeSettingsConfigurable implements Configurable {
     @Override
     public boolean isModified() {
         TeeSettingsState settings = TeeSettingsState.getInstance();
-        boolean modified = !aTeeSettingsComponent.getLogsOutputDir()
-                                                 .equals(settings.aLogsOutputDir);
-        return modified;
+        return !aTeeSettingsComponent.getLogsOutputDir()
+                                     .equals(settings.aLogsOutputDir);
     }
 
     @Override

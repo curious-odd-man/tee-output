@@ -1,21 +1,31 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '1.5.3'
+    id 'org.jetbrains.intellij.platform' version '2.2.1'
     id 'idea'
 }
 
 group 'com.github.curious-odd-man'
-version '1.5'
+version '1.6'
 
-sourceCompatibility = 11
-targetCompatibility = 11
+sourceCompatibility = 17
+targetCompatibility = 17
 
 repositories {
     mavenLocal()
     mavenCentral()
+
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 dependencies {
+    intellijPlatform {
+        intellijIdeaCommunity('2024.3')
+        //intellijIdeaUltimate('2024.3')
+        //plugins(new String[]{'org.jetbrains.plugins.gradle'})
+    }
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
@@ -23,20 +33,15 @@ dependencies {
 
 idea {
     module {
-        downloadJavadoc = false
+        downloadJavadoc = true
         downloadSources = true
     }
 }
 
-intellij {
-    version = '2022.1'
-    //type = 'PY'   // Test PyCharm...
-    plugins = ['org.jetbrains.plugins.gradle']
-}
-
-
 patchPluginXml {
     changeNotes = """
+  <br><h>Version 1.5:</h><br>
+  - Compatibility with IntelliJ 2024.3
   <br><h>Version 1.5:</h><br>
   - Compatibility with IntelliJ 2022.1
   <br><h>Version 1.4:</h><br>
