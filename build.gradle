@@ -40,7 +40,7 @@ idea {
 
 patchPluginXml {
     changeNotes = """
-  <br><h>Version 1.5:</h><br>
+  <br><h>Version 1.6:</h><br>
   - Compatibility with IntelliJ 2024.3
   <br><h>Version 1.5:</h><br>
   - Compatibility with IntelliJ 2022.1
