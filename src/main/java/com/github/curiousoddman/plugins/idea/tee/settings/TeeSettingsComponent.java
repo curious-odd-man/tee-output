@@ -4,7 +4,6 @@ import com.intellij.ide.DataManager;
 import com.intellij.ide.macro.MacrosDialog;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
@@ -16,8 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 
 public class TeeSettingsComponent {
-    private static final Logger log = Logger.getInstance(TeeSettingsComponent.class);
-
     private final JPanel                    aPanel;
     private final TextFieldWithBrowseButton aLogsOutputDir = new TextFieldWithBrowseButton();
     private final Project                   aProject;
@@ -52,6 +49,6 @@ public class TeeSettingsComponent {
     }
 
     protected final void addWorkingDirectoryBrowseAction(@NotNull final TextFieldWithBrowseButton workingDirField) {
-        workingDirField.addBrowseFolderListener(null, null, aProject, FileChooserDescriptorFactory.createSingleFolderDescriptor());
+        workingDirField.addBrowseFolderListener(aProject, FileChooserDescriptorFactory.createSingleFolderDescriptor());
     }
 }

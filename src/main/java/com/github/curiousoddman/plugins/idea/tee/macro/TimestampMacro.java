@@ -2,7 +2,6 @@ package com.github.curiousoddman.plugins.idea.tee.macro;
 
 import com.intellij.ide.macro.Macro;
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -12,8 +11,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class TimestampMacro extends Macro {
-    private static final Logger log = Logger.getInstance(TimestampMacro.class);
-
     @Override
     public @NonNls @NotNull
     String getName() {

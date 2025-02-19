@@ -11,8 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class RunConfigNameMacro extends Macro {
-    private static final Logger log = Logger.getInstance(RunConfigNameMacro.class);
-
     public static final DataKey<RunProfile> RUN_CONFIGURATION_BASE = DataKey.create("tee-output.run-configuration-base");
 
     @Override
